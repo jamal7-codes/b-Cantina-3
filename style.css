@@ -1,0 +1,51 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F7F5F0;
+    color: #222222;
+    margin: 0;
+}
+
+header {
+    background-color: #F7F5F0;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    background-color: #F7F5F0;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.weekly-menu{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+.day-card{
+    background-color: white;
+    padding: 15px;
+    border-radius:25px ;
+    border: 1px solid #ddd;
+}
+.meal-slot{
+    background-color:#f0f7f0 ;
+    padding: 10px;
+    margin-bottom: 10px;
+ }
+.dashboard{
+     display: grid;
+    grid-template-columns:repeat(4 , 1fr) ;
+    gap: 15px;   
+}
+
+.dashboard{
+    background-color: white;
+}
