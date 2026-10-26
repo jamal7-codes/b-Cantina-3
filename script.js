@@ -1,22 +1,24 @@
  
 const recipes = [ ];
  
+const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+const slots = ["Starter", "Main course", "Dessert"];
 
 
-
-  const recipeList = document.querySelector('#reserve-list'); 
-   
- const addButton = document.querySelector("#add-recipe");
- const modal = document.querySelector("#recipe-modal");
- const cancelButton = document.querySelector("#cancel-recipe");
- const modalContent = document.querySelector("#modal-content");
-
+    const recipeForm = document.querySelector("#recipe-form");
  const recipeName = document.querySelector("#recipe-name");
 const recipeCategory = document.querySelector("#recipe-category");
 const recipePrice = document.querySelector("#recipe-price");
 
- const recipeForm = document.querySelector("#recipe-form");
+  const recipeList = document.querySelector('#reserve-list'); 
 
+ const addButton = document.querySelector("#add-recipe");
+ const modal = document.querySelector("#recipe-modal");
+ const cancelButton = document.querySelector("#cancel-recipe");
+ const modalContent = document.querySelector("#modal-content");
+const weeklyMenu = document.querySelector("#weekly-menu")
+
+const toastContainer = document.querySelector("#toast-container");
  
 
   
@@ -43,9 +45,30 @@ card.className = "bg-white border rounded-xl p-4 shadow-sm flex flex-col gap-2";
   price.textContent = recipe.price + " DH";
   price.className = "text-green-600 font-semibold text-lg";
 
+  const select = document.createElement("select");
+  select.className = "border rounded-lg p-1 text-sm";
+  
+  select.dataset.id = recipe.id;
+  select.setAttribute("aria-label", "Assign" + recipe.name);
+
+  const reserveOption = document.createElement("option");
+  reserveOption.value = "";
+  reserveOption.textContent = "In reserve";
+  select.appendChild(reserveOption);
+
+  for (const day of days){
+    for(const slot of slots){
+        const option = document.createElement("option");
+        option.value = day + "|" + slot;
+        option.textContent = day+ " - " + slot;
+        select.appendChild(option);
+    }
+  }
+
   card.appendChild(category);
   card.appendChild(name);
   card.appendChild(price);
+  card.appendChild(select)
 
   card.dataset.id = recipe.id; 
 
@@ -83,12 +106,12 @@ card.className = "bg-white border rounded-xl p-4 shadow-sm flex flex-col gap-2";
  });
  
  renderRecipes();
+
 function closeModal (){
     modal.classList.add("hidden");
 }
   addButton.addEventListener("click", function () {
-    resetForm();
- modal.classList.remove("hidden");
+  modal.classList.remove("hidden");
 });
 
 cancelButton.addEventListener("click", function(){
