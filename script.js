@@ -11,7 +11,11 @@ const recipes = [ ];
  const cancelButton = document.querySelector("#cancel-recipe");
  const modalContent = document.querySelector("#modal-content");
 
+ const recipeName = document.querySelector("#recipe-name");
+const recipeCategory = document.querySelector("#recipe-category");
+const recipePrice = document.querySelector("#recipe-price");
 
+ const recipeForm = document.querySelector("#recipe-form");
 
  
 
@@ -44,11 +48,40 @@ card.className = "bg-white border rounded-xl p-4 shadow-sm flex flex-col gap-2";
   card.appendChild(price);
 
   card.dataset.id = recipe.id; 
-   recipeList.appendChild(card);
+
+
+   
+  
+  recipeList.appendChild(card);
+  
 }
 }
 
+ recipeForm.addEventListener("submit", function(event){
+    event.preventDefault();
 
+    const name = recipeName.value.trim();
+    const category = recipeCategory.value;
+    const price = Number(recipePrice.value);
+
+
+    const newRecipe = {
+        id:Date.now(),
+        name: name,
+        category: category,
+        price: price
+ 
+    };
+
+   recipes.push(newRecipe);
+   renderRecipes();
+
+   recipeForm.reset();
+
+    closeModal();
+
+ });
+ 
  renderRecipes();
 function closeModal (){
     modal.classList.add("hidden");
