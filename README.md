@@ -2,8 +2,8 @@
 
 A simple web application to manage the YouCode canteen menu from Monday to Friday.
 
-Live site (Vercel): https://b3-canteen.vercel.app
-Repository: https://github.com/jamal7-codes/b-Cantina-3
+- Live site (Vercel): https://b3-canteen.vercel.app
+- Repository: https://github.com/jamal7-codes/b-Cantina-3
 
 ## Features
 - Add recipes.
