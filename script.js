@@ -34,8 +34,18 @@ const recipeList = document.querySelector('#reserve-list');
 
 const toastContainer = document.querySelector("#toast-container");
  
+//  adds up teh prices of one day 
+function dayTotal(day,  ){
+    let total = 0;
+    for(const r of recipes){
+        if(r.day === day ){
+            total = total + r.price
+        }
+    }
+    return total;
+}
 
-  
+// show recipes cards
 function renderRecipes() {
 
     recipeList.innerHTML = ""
@@ -104,7 +114,7 @@ editButton.textContent = "Edit";
 editButton.dataset.action = "edit";
 editButton.className = "border rounded-lg px-3 text-sm hover:bg-gray-100";
 
-const deleteButton = document.createElement("botton");
+const deleteButton = document.createElement("button");
 deleteButton.type = "button";
 deleteButton.textContent = "Delete";
 deleteButton.dataset.action= "delete";
@@ -132,7 +142,7 @@ card.appendChild(category);
 }
 }
 
-
+// add or edit a recipe
  recipeForm.addEventListener("submit", function(event){
     event.preventDefault();
 
@@ -170,6 +180,7 @@ card.appendChild(category);
  
  renderRecipes();
 
+//  open / close
 function closeModal (){
     modal.classList.add("hidden");
 }
