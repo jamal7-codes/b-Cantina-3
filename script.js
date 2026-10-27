@@ -41,7 +41,8 @@ const recipeList = document.querySelector('#reserve-list');
  const weeklyMenu = document.querySelector("#weekly-menu");
  const closeButton = document.querySelector("#close-modal");
 
-
+const dashReserve = document.querySelector("#dash-reserve");
+const dashCost = document.querySelector("#dash-cost");
 
 
 const toastContainer = document.querySelector("#toast-container");
@@ -116,6 +117,25 @@ card.appendChild(box)
 function renderAll(){
     renderRecipes();
     renderWeek();
+    updateDashboard();
+     
+}
+
+//   udate Dashboard 
+function updateDashboard() {
+  let inReserve = 0;
+  let weekCost = 0;
+
+  for (const recipe of recipes) {
+    if (recipe.day === null) {
+      inReserve++;
+    } else {
+      weekCost += Number(recipe.price);
+    }
+  }
+
+  dashReserve.textContent = inReserve;
+  dashCost.textContent = weekCost + " DH";
 }
 
 // toast message
