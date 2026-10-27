@@ -1,4 +1,6 @@
  
+
+ 
 const recipes = [ {
     id: 1,
     name: "Salad",
@@ -12,7 +14,11 @@ const recipes = [ {
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 const slots = ["Starter", "Main course", "Dessert"];
 
-
+const badgeClass = {
+    "Starter": "bg-amber-100 text-amber-800",
+    "Main course":"bg-blue-100 text-blue-800",
+    "Dessert":"bg-pink-100 text-pink-800"
+}
  
 const recipeForm = document.querySelector("#recipe-form");
 
@@ -34,15 +40,77 @@ const recipeList = document.querySelector('#reserve-list');
 
 const toastContainer = document.querySelector("#toast-container");
  
+
+
+
 //  adds up teh prices of one day 
-function dayTotal(day,  ){
+function dayTotal(day, ignoredId){
     let total = 0;
     for(const r of recipes){
-        if(r.day === day ){
+        if(r.day === day && r.id !== ignoredId){
             total = total + r.price
         }
     }
     return total;
+}
+
+//  show weekly Menu 
+function renderWeek(){
+
+weeklyMenu.innerHTML = "";
+
+for (const day of days){
+    const card = document.createElement("div");
+    card.className = "bg-while border border-gray-200 rounded-xl p-4 flex flex-col";
+
+    const title = document.createElement("h3");
+    title.className = "font-bold";
+    title.textContent = day;
+    card.appendChild(title);
+
+    for (const slot of slots){
+        const recipe = recipes.find(function (r){
+        return r.day === day && r.slot === slot;
+
+        });
+const box = document.createElement("div");
+box.className = "bg-gray-50 rounded-lg px-2.5 py-2 flex flex-col items-start gap-1";
+
+const badge = document.createElement("span");
+badge.className = "px-2.5 py-1 rounded-full text-xs font-semibold " + badgeClass[solt];
+badge.textContent = slot;
+
+const name = document.createElement("p");
+const price = document.createElement("p");
+price.className = "text-xs text-gray-500";
+
+if(recipe){
+    name.className = "text-sm font-semibold";
+    name.textContent = recipe.name;
+    price.textContent = "+" + recipe.price + "DH";
+}else{
+    name.className = "text-sm text-gray-400";
+    name.textContent = "Empty slot";
+    price.textContent = "-";
+}
+box.appendChild(badge);
+box.appendChild(name);
+box.appendChild(price);
+card.appendChild(box)
+    }
+
+    const total = document.createElement("p");
+    total.className = "bg-green-100 text-green-800 text.sm font-bold rounded-lg px-2.5 py-2";
+    total.textContent = "Total: " + dayTotal(day, null) + " / 50 DH";
+    card.appendChild(total);
+
+    weeklyMenu.appendChild(card);
+}
+}
+ 
+function renderAll(){
+    renderRecipes();
+    renderWeek();
 }
 
 // show recipes cards
@@ -204,7 +272,3 @@ modal.addEventListener("click",function(event){
  modalContent.addEventListener("click", function(event){
     event.stopPropagation();
 });
-
- 
- 
- 
