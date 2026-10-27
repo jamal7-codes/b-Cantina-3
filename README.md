@@ -1,41 +1,64 @@
 # YouCode Canteen Menu Manager 🍽️
 
-A simple web application to manage the YouCode canteen menu from Monday to Friday.
+A web application built with HTML, Tailwind CSS, and Vanilla JavaScript to manage the YouCode canteen menu from Monday to Friday while respecting a maximum budget of **50 DH per day**.
 
-- Live site (Vercel): https://b3-canteen.vercel.app
-- Repository: https://github.com/jamal7-codes/b-Cantina-3
+- **Live website:** https://b3-canteen.vercel.app
+- **GitHub repository:** https://github.com/jamal7-codes/b-Cantina-3
 
 ## Technologies
 
-- HTML5 and Tailwind CSS (CDN)
-- Vanilla JavaScript (ES6): DOM manipulation, events, localStorage
-- Git, GitHub and Vercel
+- HTML5
+- Tailwind CSS via CDN
+- Vanilla JavaScript (ES6)
+- DOM manipulation and event handling
+- Git and GitHub
+- Vercel
 
-## What the app does
+## Features
 
-- Shows recipes as cards in a **recipe reserve**. The cards are created from a JavaScript array.
-- Lets the user **add a recipe** with a modal form (name, category, price).
-- Lets the user **assign a recipe to a day and slot** with a dropdown on each card. A recipe can only be placed in the slot that matches its category (a Starter cannot go in the Dessert slot).
-- Shows the **weekly menu** (Monday to Friday, three slots per day) and the **total of each day**.
-- Lets the user **edit** a recipe (the form opens filled with its values) and **delete** it (with a confirmation).
-- Shows a **dashboard** with the number of recipes in the reserve and the cost of the week.
-- Shows **toast messages** after actions, with a button to close them.
-- **Saves the data** in the browser (localStorage), so it stays after a refresh.
-- The modal closes with the Cancel button or a click on the dark background. A click inside the white box does not close it.
+- **Recipe reserve:** Display recipes dynamically from a JavaScript array.
+- **Add recipes:** Open a modal form to enter the recipe name, category, and price.
+- **Recipe assignment:** Assign recipes to a weekday and a menu slot using a dropdown.
+- **Category validation:** Only allow recipes to be assigned to a matching slot.
+- **Weekly menu:** Display the menu from Monday to Friday, with Starter, Main course, and Dessert slots.
+- **Daily budget:** Calculate each day's total and prevent the total from exceeding 50 DH.
+- **Edit and delete:** Update recipes according to the project rules and confirm before deleting.
+- **Dashboard:** Display the number of recipes in reserve, days ready, weekly cost per learner, and vegetarian-diet status, if implemented.
+- **Toast messages:** Show feedback after user actions.
+- **Form validation:** Validate recipe information before saving.
+- **Data persistence:** Save recipes in localStorage so they remain after refreshing the page, if enabled in the final version.
 
 ## Project structure
 
+```text
+index.html
+style.css
+script.js
+README.md
+Documentation.md
+Planning.md
 ```
-index.html        page structure
-style.css         custom styles
-script.js         all the JavaScript
-README.md         this file
-Documentation.md  explanation of the code
-Planning.md       task planning
+
+## Run locally
+
+1. Clone or download the repository.
+2. Open the project folder in Visual Studio Code.
+3. Open `index.html` in your browser or use the Live Server extension.
+4. An internet connection is required for the Tailwind CSS CDN.
+
+If localStorage is enabled and you want to reset the saved application data, open the browser console and run:
+
+```js
+localStorage.clear();
 ```
 
-## Run it locally
+Then refresh the page.
 
-Open `index.html` in a browser (an internet connection is needed for the Tailwind CDN). To reset the saved data, run `localStorage.clear()` in the console and refresh.
+## Documentation
 
- 
+- **Task planning:** See `Planning.md`.
+- **Final documentation:** See `Documentation.md`.
+
+## Project objective
+
+The goal of this project is to practice DOM manipulation, JavaScript events, form validation, algorithmic thinking, responsive design, and Git-based project organization while developing a practical canteen menu management application.
