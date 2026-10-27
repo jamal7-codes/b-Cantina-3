@@ -1,7 +1,8 @@
  
 
  
-const recipes = [ {
+const recipes = JSON.parse(localStorage.getItem("canteenRecipes")) || [ {
+
     id: 1,
     name: "Salad",
     category: "Starter",
@@ -10,7 +11,12 @@ const recipes = [ {
     slot: null
   }
 ];
- 
+
+//localStorage
+function saveRecipes(){
+    localStorage.setItem("canteenRecipes", JSON.stringify(recipes));
+}
+
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 const slots = ["Starter", "Main course", "Dessert"];
 
@@ -145,6 +151,7 @@ recipeList.addEventListener("change", function (event){
     if (value === ""){
         recipe.day = null;
         recipe.slot = null;
+        saveRecipes();
         renderAll();
         return;
     }
@@ -161,6 +168,7 @@ recipeList.addEventListener("change", function (event){
 
     recipe.day = day;
     recipe.slot = slot;
+    saveRecipes();
     renderAll();
     showToast(recipe.name + " assigned to "+ day+"." ,"success");
     
@@ -287,6 +295,7 @@ recipeList.addEventListener("click", function (event) {
     });
 
     recipes.splice(index, 1);
+    saveRecipes()
     renderAll();
     showToast("Recipe deleted!", "success");
   }
@@ -361,6 +370,8 @@ recipeForm.addEventListener("submit", function (event) {
 
     recipes.push(newRecipe);
     showToast("Recipe added!", "success");
+
+    saveRecipes();
   }
 
   renderAll();
