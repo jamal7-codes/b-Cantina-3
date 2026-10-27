@@ -40,8 +40,7 @@ const recipeList = document.querySelector('#reserve-list');
 
 const toastContainer = document.querySelector("#toast-container");
  
-
-
+ 
 
 //  adds up teh prices of one day 
 function dayTotal(day, ignoredId){
@@ -264,49 +263,122 @@ card.appendChild(category);
 }
 }
 
+// delete and edite buttons
+recipeList.addEventListener("click", function (event) {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const card = button.closest("[data-id]");
+  const id = Number(card.dataset.id);
+
+  const recipe = recipes.find(function (r) {
+    return r.id === id;
+  });
+
+  if (!recipe) return;
+
+  if (button.dataset.action === "delete") {
+    const confirmed = confirm("Delete " + recipe.name + "?");
+
+    if (!confirmed) return;
+
+    const index = recipes.findIndex(function (r) {
+      return r.id === id;
+    });
+
+    recipes.splice(index, 1);
+    renderAll();
+    showToast("Recipe deleted!", "success");
+  }
+
+  if (button.dataset.action === "edit") {
+    editingRecipeId = id;
+
+    recipeName.value = recipe.name;
+    recipeCategory.value = recipe.category;
+    recipePrice.value = recipe.price;
+
+    modal.classList.remove("hidden");
+  }
+});
+
 // add or edit a recipe
- recipeForm.addEventListener("submit", function(event){
-    event.preventDefault();
-
-    const name = recipeName.value.trim();
-    const category = recipeCategory.value;
-    const price = Number(recipePrice.value);
-
-    if(name === "" || category === "" || recipePrice.value === ""){
-        alert("Please fill in all required");
-        return;
-    }
-
-    if(!Number.isFinite(price) || price <=0 ){
-        alert("please enter a valid price");
-        return;
-    }
-    const newRecipe = {
-        id:Date.now(),
-        name: name,
-        category: category,
-        price: price,
-        day: null,
-        slot: null
  
+recipeForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const name = recipeName.value.trim();
+  const category = recipeCategory.value;
+  const price = Number(recipePrice.value);
+
+  if (name === "" || category === "" || recipePrice.value === "") {
+    showToast("Please fill in all fields.", "error");
+    return;
+  }
+
+  if (!Number.isFinite(price) || price <= 0) {
+    showToast("Enter a valid price.", "error");
+    return;
+  }
+
+  if (editingRecipeId !== null) {
+    const recipe = recipes.find(function (r) {
+      return r.id === editingRecipeId;
+    });
+
+    if (!recipe) return;
+
+    // Check the budget if this recipe is already assigned.
+    if (
+      recipe.day !== null &&
+      dayTotal(recipe.day, recipe.id) + price > 50
+    ) {
+      showToast("This change would exceed the 50 DH budget.", "error");
+      return;
+    }
+
+    recipe.name = name;
+    recipe.category = category;
+    recipe.price = price;
+
+    // Keep the assignment only if its slot matches the new category.
+    if (recipe.slot !== category) {
+      recipe.day = null;
+      recipe.slot = null;
+    }
+
+    editingRecipeId = null;
+    showToast("Recipe updated!", "success");
+  } else {
+    const newRecipe = {
+      id: Date.now(),
+      name: name,
+      category: category,
+      price: price,
+      day: null,
+      slot: null
     };
 
-   recipes.push(newRecipe);
-   renderRecipes();
+    recipes.push(newRecipe);
+    showToast("Recipe added!", "success");
+  }
 
-   recipeForm.reset();
+  renderAll();
+  recipeForm.reset();
+  closeModal();
+});
 
-    closeModal();
-
- });
  
- renderRecipes();
 
+ 
+renderAll()
 //  open / close
 function closeModal (){
     modal.classList.add("hidden");
 }
   addButton.addEventListener("click", function () {
+    editingRecipeId = null;
+    recipeForm.reset();
   modal.classList.remove("hidden");
 });
 
