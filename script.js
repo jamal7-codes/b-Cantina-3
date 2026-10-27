@@ -77,7 +77,7 @@ const box = document.createElement("div");
 box.className = "bg-gray-50 rounded-lg px-2.5 py-2 flex flex-col items-start gap-1";
 
 const badge = document.createElement("span");
-badge.className = "px-2.5 py-1 rounded-full text-xs font-semibold " + badgeClass[solt];
+badge.className = "px-2.5 py-1 rounded-full text-xs font-semibold " + badgeClass[slot];
 badge.textContent = slot;
 
 const name = document.createElement("p");
@@ -112,6 +112,60 @@ function renderAll(){
     renderRecipes();
     renderWeek();
 }
+
+// toast message
+
+function showToast(message, type){
+    const toast = document.createElement("div");
+    toast.className = "flex items-center gap-3 rounded-lg px-4 py-3 text-while shadow "+ (type === "error" ? "bg-red-600":"bg-green-700");
+
+    const text = document.createElement("span");
+    text.textContent = message;
+    const x = document.createElement("button");
+    x.type ="button";
+    x.textContent ="x";
+    x.addEventListener("click", function (){toast.remove(); });
+    toast.appendChild(text);
+    toast.appendChild(x);
+    toastContainer.appendChild(toast);
+
+}
+
+recipeList.addEventListener("change", function (event){
+    const select = event.target.closest("select");
+    if(!select){
+        return;
+    }
+    const recipe = recipes.find(function (r){
+        return r.id === Number(select.dataset.id);
+
+    });
+
+    const value = select.value;
+
+    if (value === ""){
+        recipe.day = null;
+        recipe.slot = null;
+        renderAll();
+        return;
+    }
+
+    const parts = value.split("|");
+    const day = parts[0];
+    const slot = parts[1];
+
+    if (slot !== recipe.category){
+        renderAll();
+        showToast("A" + recipe.category + "cannot go in the "+ slot + "slot.", "error");
+        return;
+    }
+
+    recipe.day = day;
+    recipe.slot = slot;
+    renderAll();
+    showToast(recipe.name + " assigned to "+ day+"." ,"success");
+    
+});
 
 // show recipes cards
 function renderRecipes() {
